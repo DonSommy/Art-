@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luminary Gallery — Fine Art Collection</title>
+  <meta name="description" content="Luminary Gallery is a premier destination for collecting original fine art. Browse our curated collection and place pre-orders for exceptional works." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       LUMINARY GALLERY — Luxury Editorial Aesthetic
+       ============================================================ */
+
+    :root {
+      --cream:    #f5f0e8;
+      --ivory:    #faf7f2;
+      --charcoal: #1c1917;
+      --slate:    #3d3530;
+      --muted:    #7d7168;
+      --gold:     #b8963e;
+      --gold-lt:  #d4af6a;
+      --gold-bg:  rgba(184,150,62,0.08);
+      --border:   rgba(28,25,23,0.12);
+      --shadow:   0 4px 30px rgba(28,25,23,0.10);
+      --shadow-lg:0 16px 60px rgba(28,25,23,0.18);
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans:  'Jost', system-ui, sans-serif;
+      --nav-h: 76px;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--ivory);
+      color: var(--charcoal);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a   { color: inherit; text-decoration: none; }
+    ul  { list-style: none; }
+    button { font-family: inherit; cursor: pointer; }
+
+    /* ── Utilities ── */
+    .label {
+      font-family: var(--font-sans);
+      font-size: 0.63rem; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .serif { font-family: var(--font-serif); }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      height: var(--nav-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6vw;
+      background: rgba(250,247,242,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.4s var(--ease);
+    }
+    #navbar.scrolled { border-color: var(--border); }
+
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-size: 1.45rem; font-weight: 500;
+      letter-spacing: 0.02em;
+      user-select: none;
+    }
+    .nav-logo .mark { color: var(--gold); margin-left: 4px; }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 2.8rem;
+    }
+    .nav-links a {
+      font-size: 0.68rem; font-weight: 400;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--slate); position: relative;
+      padding-bottom: 3px;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 100%;
+      height: 1px; background: var(--gold);
+      transition: right 0.35s var(--ease);
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { right: 0; }
+
+    .nav-cta {
+      background: var(--charcoal) !important;
+      color: var(--cream) !important;
+      padding: 0.55rem 1.5rem;
+      border-radius: 2px;
+      font-size: 0.63rem !important;
+      letter-spacing: 0.18em !important;
+      transition: background 0.3s !important;
+    }
+    .nav-cta:hover { background: var(--gold) !important; }
+    .nav-cta::after { display: none !important; }
+
+    .hamburger {
+      display: none; flex-direction: column;
+      gap: 5px; background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 1px;
+      background: var(--charcoal);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none; position: fixed;
+      top: var(--nav-h); left: 0; right: 0; z-index: 850;
+      background: var(--ivory); border-bottom: 1px solid var(--border);
+      padding: 2rem 6vw 2.5rem;
+      flex-direction: column; gap: 1.6rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--slate); padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    #hero {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 100vh; padding-top: var(--nav-h);
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8vh 5vw 8vh 8vw;
+    }
+    .hero-eyebrow { margin-bottom: 1.8rem; }
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 5.5vw, 6rem);
+      font-weight: 300; line-height: 1.03;
+      margin-bottom: 2rem;
+    }
+    .hero-title em { font-style: italic; color: var(--gold); }
+    .hero-desc {
+      font-size: 0.92rem; color: var(--muted);
+      line-height: 1.8; max-width: 42ch;
+      margin-bottom: 3rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .hero-right {
+      position: relative; overflow: hidden;
+      background: var(--cream);
+    }
+    .hero-mosaic {
+      position: absolute; inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3px;
+    }
+    .hero-mosaic img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.9s var(--ease), opacity 0.6s;
+    }
+    .hero-mosaic img:first-child { grid-row: 1 / 3; }
+    .hero-mosaic img:hover { transform: scale(1.05); }
+    .hero-right::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(28,25,23,0.06) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       STATS RIBBON
+       ============================================================ */
+    #stats-bar {
+      background: var(--charcoal); color: var(--cream);
+      padding: 2.5rem 8vw;
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 2rem; text-align: center;
+    }
+    .stat-n {
+      font-family: var(--font-serif);
+      font-size: 2.6rem; font-weight: 300;
+      color: var(--gold-lt);
+      line-height: 1;
+    }
+    .stat-l {
+      font-size: 0.6rem; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.45);
+      margin-top: 0.4rem;
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.66rem; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 0.88rem 2.2rem; border-radius: 2px;
+      border: 1px solid transparent;
+      transition: all 0.3s var(--ease);
+    }
+    .btn-primary {
+      background: var(--charcoal); color: var(--cream);
+      border-color: var(--charcoal);
+    }
+    .btn-primary:hover { background: var(--gold); border-color: var(--gold); }
+    .btn-outline {
+      background: transparent; color: var(--charcoal);
+      border-color: var(--charcoal);
+    }
+    .btn-outline:hover { background: var(--charcoal); color: var(--cream); }
+    .btn-gold {
+      background: var(--gold); color: var(--cream);
+      border-color: var(--gold);
+    }
+    .btn-gold:hover { background: var(--charcoal); border-color: var(--charcoal); }
+
+    /* ============================================================
+       SECTION COMMON
+       ============================================================ */
+    .section { padding: 7rem 8vw; }
+    .section-alt { background: var(--cream); }
+
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-header h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      font-weight: 400; margin-top: 0.6rem; margin-bottom: 0.8rem;
+    }
+    .section-header p {
+      color: var(--muted); font-size: 0.88rem;
+      max-width: 54ch; margin: 0 auto; line-height: 1.8;
+    }
+
+    /* ============================================================
+       GALLERY
+       ============================================================ */
+    .gallery-controls {
+      display: flex; flex-direction: column; align-items: center; gap: 1.4rem;
+      margin-bottom: 3.5rem;
+    }
+    .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+    .filter-btn {
+      font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+      font-family: var(--font-sans); font-weight: 400;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border); border-radius: 2px;
+      background: transparent; color: var(--muted);
+      transition: all 0.25s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--charcoal); color: var(--cream);
+      border-color: var(--charcoal);
+    }
+
+    .search-bar {
+      display: flex; border: 1px solid var(--border);
+      border-radius: 2px; overflow: hidden; max-width: 380px; width: 100%;
+    }
+    .search-bar input {
+      flex: 1; padding: 0.65rem 1rem;
+      border: none; background: white; outline: none;
+      font-family: var(--font-sans); font-size: 0.85rem;
+      color: var(--charcoal);
+    }
+    .search-bar button {
+      background: var(--charcoal); color: var(--cream);
+      border: none; padding: 0.65rem 1.1rem;
+      font-size: 1rem; transition: background 0.25s;
+    }
+    .search-bar button:hover { background: var(--gold); }
+
+    .artworks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 2rem;
+    }
+    .grid-empty {
+      grid-column: 1/-1; text-align: center; padding: 5rem 1rem;
+    }
+    .grid-empty h3 {
+      font-family: var(--font-serif); font-size: 2rem;
+      color: var(--muted); margin-bottom: 0.5rem;
+    }
+
+    /* Art Card */
+    .art-card {
+      background: white; border-radius: 2px;
+      box-shadow: var(--shadow); overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    }
+    .art-card:hover {
+      transform: translateY(-7px);
+      box-shadow: var(--shadow-lg);
+    }
+    .card-img {
+      position: relative; overflow: hidden; aspect-ratio: 4/3;
+    }
+    .card-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.65s var(--ease);
+    }
+    .art-card:hover .card-img img { transform: scale(1.07); }
+    .card-badge {
+      position: absolute; top: 0.9rem; right: 0.9rem;
+      font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.28rem 0.65rem; border-radius: 2px; font-weight: 500;
+    }
+    .badge-available  { background: rgba(255,255,255,0.93); color: #2d6a4f; }
+    .badge-reserved   { background: rgba(184,150,62,0.9);   color: white; }
+    .badge-sold       { background: rgba(28,25,23,0.85);    color: white; }
+    .card-featured {
+      position: absolute; top: 0.9rem; left: 0.9rem;
+      background: var(--gold); color: white;
+      font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 0.25rem 0.6rem; border-radius: 2px;
+    }
+    .card-body { padding: 1.3rem 1.4rem 1.5rem; }
+    .card-cat  { margin-bottom: 0.35rem; }
+    .card-title {
+      font-family: var(--font-serif); font-size: 1.28rem;
+      font-weight: 400; margin-bottom: 0.2rem;
+    }
+    .card-artist {
+      font-family: var(--font-serif); font-style: italic;
+      font-size: 0.88rem; color: var(--muted); margin-bottom: 1rem;
+    }
+    .card-foot {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding-top: 0.9rem; border-top: 1px solid var(--border);
+    }
+    .card-price {
+      font-family: var(--font-serif); font-size: 1.35rem;
+      color: var(--charcoal);
+    }
+    .card-meta { font-size: 0.67rem; color: var(--muted); text-align: right; line-height: 1.6; }
+
+    /* ============================================================
+       MODAL
+       ============================================================ */
+    .overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(20,16,14,0.72);
+      backdrop-filter: blur(5px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s var(--ease);
+    }
+    .overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--ivory); border-radius: 3px;
+      width: 100%; max-width: 940px; max-height: 92vh;
+      overflow-y: auto; position: relative;
+      transform: translateY(24px) scale(0.98);
+      transition: transform 0.4s var(--ease);
+    }
+    .overlay.open .modal { transform: none; }
+
+    .modal-close {
+      position: sticky; top: 1rem; float: right;
+      margin: 1rem 1rem 0 0; clear: right;
+      width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--cream); border: 1px solid var(--border);
+      border-radius: 50%; color: var(--muted); font-size: 1rem;
+      transition: all 0.25s; z-index: 10;
+    }
+    .modal-close:hover {
+      background: var(--charcoal); color: white;
+      border-color: var(--charcoal);
+    }
+
+    .modal-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      clear: both;
+    }
+    .modal-photo { aspect-ratio: 1; overflow: hidden; }
+    .modal-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .modal-detail { padding: 2.8rem 2.4rem; overflow-y: auto; }
+
+    .modal-cat    { margin-bottom: 0.7rem; }
+    .modal-title  { font-family: var(--font-serif); font-size: 2rem; font-weight: 400; margin-bottom: 0.3rem; }
+    .modal-artist { font-family: var(--font-serif); font-style: italic; color: var(--muted); margin-bottom: 1.4rem; }
+    .modal-desc   { color: var(--slate); font-size: 0.87rem; line-height: 1.85; margin-bottom: 1.8rem; }
+
+    .specs-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.9rem; padding: 1.3rem;
+      background: var(--cream); border-radius: 2px; margin-bottom: 1.8rem;
+    }
+    .spec-l { font-size: 0.59rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+    .spec-v { font-size: 0.86rem; }
+
+    .modal-price {
+      font-family: var(--font-serif); font-size: 2.1rem;
+      margin-bottom: 0.3rem;
+    }
+    .modal-avail {
+      font-size: 0.68rem; letter-spacing: 0.13em;
+      text-transform: uppercase; margin-bottom: 1.6rem;
+    }
+    .avail-yes { color: #2d6a4f; }
+    .avail-res { color: var(--gold); }
+    .avail-no  { color: var(--muted); }
+
+    /* Pre-order form */
+    .preorder-section {
+      border-top: 1px solid var(--border); padding-top: 1.5rem; margin-top: 0.5rem;
+    }
+    .preorder-section h4 {
+      font-family: var(--font-serif); font-size: 1.3rem;
+      font-weight: 400; margin-bottom: 1.3rem;
+    }
+
+    /* ============================================================
+       FORMS
+       ============================================================ */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { margin-bottom: 1.1rem; }
+    label {
+      display: block;
+      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.38rem;
+    }
+    input, textarea, select {
+      width: 100%; padding: 0.7rem 0.95rem;
+      border: 1px solid var(--border); border-radius: 2px;
+      background: white; font-family: var(--font-sans);
+      font-size: 0.86rem; color: var(--charcoal); outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184,150,62,0.12);
+    }
+    textarea { resize: vertical; min-height: 100px; }
+    .req { color: var(--gold); }
+
+    .form-msg {
+      padding: 0.85rem 1.1rem; border-radius: 2px;
+      font-size: 0.83rem; margin-top: 0.9rem; display: none;
+    }
+    .form-msg.ok  { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; display: block; }
+    .form-msg.err { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; display: block; }
+
+    /* ============================================================
+       ABOUT
+       ============================================================ */
+    .about-wrap {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center;
+    }
+    .about-img-wrap { position: relative; }
+    .about-img-wrap img {
+      width: 100%; aspect-ratio: 3/4;
+      object-fit: cover; border-radius: 2px; position: relative; z-index: 1;
+    }
+    .about-img-wrap::before {
+      content: ''; position: absolute;
+      top: 2rem; left: -1.8rem; right: 2rem; bottom: -1.8rem;
+      border: 1px solid var(--gold); border-radius: 2px;
+    }
+    .about-text .label { margin-bottom: 1.2rem; }
+    .about-text h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.9rem, 3.5vw, 3rem);
+      font-weight: 400; margin-bottom: 1.4rem; line-height: 1.12;
+    }
+    .about-text h2 em { font-style: italic; color: var(--gold); }
+    .about-text p {
+      color: var(--muted); font-size: 0.9rem;
+      line-height: 1.9; margin-bottom: 1.1rem;
+    }
+    .value-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.2rem; margin: 2.2rem 0;
+    }
+    .value-icon { font-size: 1.3rem; margin-bottom: 0.35rem; }
+    .value-name {
+      font-family: var(--font-serif); font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+    }
+    .value-desc { font-size: 0.76rem; color: var(--muted); line-height: 1.65; }
+
+    /* ============================================================
+       CONTACT
+       ============================================================ */
+    .contact-wrap {
+      display: grid; grid-template-columns: 1fr 1.4fr;
+      gap: 5rem; align-items: start;
+    }
+    .contact-info .label { margin-bottom: 1.2rem; }
+    .contact-info h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 400; margin-bottom: 1.1rem;
+    }
+    .contact-info h2 em { font-style: italic; color: var(--gold); }
+    .contact-info p { color: var(--muted); font-size: 0.88rem; line-height: 1.85; margin-bottom: 2rem; }
+    .contact-detail {
+      display: flex; gap: 1rem; align-items: flex-start;
+      margin-bottom: 1.4rem;
+    }
+    .cd-icon {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--cream); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; flex-shrink: 0;
+    }
+    .cd-label { font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+    .cd-val   { font-size: 0.86rem; color: var(--charcoal); }
+
+    .contact-form-card {
+      background: white; padding: 2.4rem; border-radius: 3px;
+      box-shadow: var(--shadow);
+    }
+    .contact-form-card h3 {
+      font-family: var(--font-serif); font-size: 1.5rem;
+      font-weight: 400; margin-bottom: 1.8rem;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      background: var(--charcoal);
+      color: rgba(245,240,232,0.62);
+      padding: 5rem 8vw 2.5rem;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 4rem;
+    }
+    .footer-brand p { font-size: 0.8rem; line-height: 1.85; max-width: 26ch; margin-top: 1rem; }
+    .footer-col h5 {
+      font-family: var(--font-sans); font-size: 0.6rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--cream); margin-bottom: 1.2rem;
+    }
+    .footer-col a {
+      display: block; font-size: 0.8rem;
+      color: rgba(245,240,232,0.52);
+      margin-bottom: 0.65rem;
+      transition: color 0.25s;
+    }
+    .footer-col a:hover { color: var(--gold-lt); }
+    .footer-bottom {
+      border-top: 1px solid rgba(245,240,232,0.1);
+      padding-top: 1.5rem;
+      display: flex; justify-content: space-between;
+      align-items: center; font-size: 0.72rem;
+      flex-wrap: wrap; gap: 0.5rem;
+    }
+    .footer-bottom span { color: var(--gold-lt); }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    #toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 2000;
+      background: var(--charcoal); color: var(--cream);
+      padding: 1rem 1.5rem; border-radius: 3px; font-size: 0.84rem;
+      max-width: 340px; line-height: 1.5;
+      border-left: 3px solid var(--gold);
+      transform: translateY(100px); opacity: 0;
+      transition: all 0.4s var(--ease);
+      pointer-events: none;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    #toast.ok  { border-left-color: #34d399; }
+    #toast.err { border-left-color: #f87171; }
+
+    /* ============================================================
+       SCROLL REVEAL
+       ============================================================ */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .reveal.vis { opacity: 1; transform: none; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+      :root { --nav-h: 64px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      #hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-right { display: none; }
+      .hero-left { padding: 5vh 7vw 6vh; }
+      #stats-bar { grid-template-columns: 1fr 1fr; }
+      .modal-inner { grid-template-columns: 1fr; }
+      .modal-photo { aspect-ratio: 16/9; }
+      .about-wrap { grid-template-columns: 1fr; }
+      .about-img-wrap { display: none; }
+      .contact-wrap { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 580px) {
+      .section { padding: 5rem 5vw; }
+      #stats-bar { padding: 2rem 5vw; }
+      .form-row { grid-template-columns: 1fr; }
+      .value-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .specs-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ══════════════════════════════════════════
+     NAV
+     ══════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-logo">Luminary Gallery<span class="mark">✦</span></div>
+  <div class="nav-links" id="navLinks">
+    <a href="#gallery" data-section="gallery">Collection</a>
+    <a href="#about" data-section="about">About</a>
+    <a href="#contact" data-section="contact">Contact</a>
+    <a href="#gallery" class="nav-cta">Pre-Order →</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#gallery">Collection</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+  <a href="#gallery" class="nav-cta" style="background:var(--charcoal);color:var(--cream);padding:.6rem 1.3rem;border-radius:2px;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase">Pre-Order →</a>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HERO
+     ══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="label hero-eyebrow">Fine Art · 2025 Collection</p>
+    <h1 class="hero-title">
+      Where Art Finds<br>Its <em>True Home</em>
+    </h1>
+    <p class="hero-desc">
+      Discover exceptional original artworks by emerging and established artists. Place a pre-order from our curated collection and we'll guide you through every step of acquisition.
+    </p>
+    <div class="hero-actions">
+      <a href="#gallery" class="btn btn-primary">Explore Collection</a>
+      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-mosaic" id="heroMosaic">
+      <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=700&q=80" alt="Abstract art" loading="eager" />
+      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&q=80" alt="Landscape art" loading="eager" />
+      <img src="https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=500&q=80" alt="Urban art" loading="eager" />
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     STATS
+     ══════════════════════════════════════════ -->
+<div id="stats-bar">
+  <div><div class="stat-n" id="sTotal">12</div><div class="stat-l">Works in Collection</div></div>
+  <div><div class="stat-n" id="sAvail">10</div><div class="stat-l">Available Now</div></div>
+  <div><div class="stat-n">8</div><div class="stat-l">Featured Artists</div></div>
+  <div><div class="stat-n" id="sOrders">0</div><div class="stat-l">Happy Collectors</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     GALLERY
+     ══════════════════════════════════════════ -->
+<section id="gallery" class="section">
+  <div class="section-header reveal">
+    <p class="label">The Collection</p>
+    <h2>Available Artworks</h2>
+    <p>Each piece is an original work, carefully selected and authenticated. Click any artwork to view details and place a pre-order.</p>
+  </div>
+
+  <div class="gallery-controls reveal">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search by title, artist, or style…" />
+      <button id="searchBtn" aria-label="Search">⌕</button>
+    </div>
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-cat="All">All</button>
+    </div>
+  </div>
+
+  <div class="artworks-grid" id="artGrid"></div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     ABOUT
+     ══════════════════════════════════════════ -->
+<section class="section section-alt" id="about">
+  <div class="about-wrap">
+    <div class="about-img-wrap reveal">
+      <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&q=80" alt="Gallery interior" loading="lazy" />
+    </div>
+    <div class="about-text">
+      <p class="label reveal">Our Story</p>
+      <h2 class="reveal">A Space Where <em>Art Lives</em> and Collectors Thrive</h2>
+      <p class="reveal">Luminary Gallery was founded on the belief that exceptional art should find exceptional homes. Since our founding, we have championed both emerging voices and established masters, building a collection that spans genres, periods, and perspectives.</p>
+      <p class="reveal">We believe in the intimacy of the collector-artist relationship. Every pre-order through our platform is handled personally — we guide you through condition reports, provenance documentation, insurance, and delivery.</p>
+      <div class="value-grid">
+        <div class="reveal">
+          <div class="value-icon">🎨</div>
+          <div class="value-name serif">Curated Excellence</div>
+          <p class="value-desc">Every work is personally reviewed and authenticated before joining our collection.</p>
+        </div>
+        <div class="reveal">
+          <div class="value-icon">🤝</div>
+          <div class="value-name serif">White-Glove Service</div>
+          <p class="value-desc">Personal consultation from enquiry through delivery and installation.</p>
+        </div>
+        <div class="reveal">
+          <div class="value-icon">📜</div>
+          <div class="value-name serif">Full Provenance</div>
+          <p class="value-desc">Complete documentation for every work, ensuring your investment's integrity.</p>
+        </div>
+        <div class="reveal">
+          <div class="value-icon">🌍</div>
+          <div class="value-name serif">Global Reach</div>
+          <p class="value-desc">Trusted secure shipping to collectors in over 40 countries worldwide.</p>
+        </div>
+      </div>
+      <a href="#gallery" class="btn btn-primary reveal">Browse the Collection →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CONTACT
+     ══════════════════════════════════════════ -->
+<section class="section" id="contact">
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <p class="label reveal">Get in Touch</p>
+      <h2 class="reveal">We'd Love to <em>Hear from You</em></h2>
+      <p class="reveal">Whether you're a first-time collector or a seasoned art lover, our team is here to assist. Reach out about a specific work, commissioning a piece, or any enquiry.</p>
+
+      <div class="contact-detail reveal">
+        <div class="cd-icon">📍</div>
+        <div>
+          <div class="cd-label">Visit Us</div>
+          <div class="cd-val">12 Artisan Quarter, New York, NY 10001</div>
+        </div>
+      </div>
+      <div class="contact-detail reveal">
+        <div class="cd-icon">✉</div>
+        <div>
+          <div class="cd-label">Email</div>
+          <div class="cd-val">contact@luminarygallery.com</div>
+        </div>
+      </div>
+      <div class="contact-detail reveal">
+        <div class="cd-icon">☎</div>
+        <div>
+          <div class="cd-label">Phone</div>
+          <div class="cd-val">+1 (555) 234-5678</div>
+        </div>
+      </div>
+      <div class="contact-detail reveal">
+        <div class="cd-icon">🕐</div>
+        <div>
+          <div class="cd-label">Gallery Hours</div>
+          <div class="cd-val">Tue–Sat: 10am–7pm &nbsp;·&nbsp; Sun: 12pm–5pm</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-card reveal">
+      <h3>Send a Message</h3>
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name <span class="req">*</span></label>
+            <input type="text" name="name" required placeholder="Full name" />
+          </div>
+          <div class="form-group">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" name="email" required placeholder="you@example.com" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" name="phone" placeholder="+1 (555) 000-0000" />
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <select name="subject">
+              <option value="">Select a topic…</option>
+              <option>Artwork Enquiry</option>
+              <option>Pre-Order Question</option>
+              <option>Shipping & Delivery</option>
+              <option>Commission a Work</option>
+              <option>Artist Submission</option>
+              <option>General Question</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Message <span class="req">*</span></label>
+          <textarea name="message" required placeholder="Tell us how we can help…" rows="5"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">
+          Send Message →
+        </button>
+        <div class="form-msg" id="contactMsg"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo" style="color:var(--cream)">Luminary Gallery<span class="mark">✦</span></div>
+      <p>A curated space for exceptional original art. Connecting collectors and artists with care, expertise, and passion since 2018.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Collection</h5>
+      <a href="#gallery">All Artworks</a>
+      <a href="#gallery">Abstract</a>
+      <a href="#gallery">Landscape</a>
+      <a href="#gallery">Figurative</a>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <a href="#contact">Pre-Orders</a>
+      <a href="#contact">Commissions</a>
+      <a href="#contact">Art Consulting</a>
+      <a href="#contact">Artist Submissions</a>
+    </div>
+    <div class="footer-col">
+      <h5>Information</h5>
+      <a href="#about">About Us</a>
+      <a href="#contact">Contact</a>
+      <a href="#">Shipping Policy</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Luminary Gallery. All rights reserved.</span>
+    <span>Made with <span style="color:var(--gold)">✦</span> for art lovers everywhere</span>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════
+     ARTWORK MODAL
+     ══════════════════════════════════════════ -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <!-- JS-injected content -->
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+     ══════════════════════════════════════════ -->
+<script>
+/* ============================================================
+   DATA — Artwork collection (replaces PHP/MySQL for static)
+   ============================================================ */
+const ARTWORKS_SEED = [
+  { id:1,  title:'Crimson Horizon',     artist:'Elena Vasquez',   description:'A breathtaking abstract landscape capturing the fleeting moment between day and night, rendered in sweeping strokes of crimson and gold. Vasquez employs a gestural vocabulary that feels both spontaneous and deeply intentional, drawing the viewer into a liminal space between chaos and stillness.',   medium:'Oil on Canvas',        dimensions:'120 × 90 cm',  year:2023, price:4800,  category:'Abstract',    img:'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=700&q=80', featured:true },
+  { id:2,  title:'The Quiet Forest',    artist:'Marcus Albright',  description:'An intimate study of morning light filtering through ancient pines, evoking solitude and the sacred stillness of nature. Albright\'s mastery of atmospheric perspective transforms a simple woodland scene into a meditation on time and presence.',                                                            medium:'Acrylic on Linen',     dimensions:'80 × 100 cm',   year:2022, price:3200,  category:'Landscape',   img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=80', featured:true },
+  { id:3,  title:'Urban Pulse',         artist:'Sophia Chen',      description:'A dynamic composition of fractured city geometry and neon impressions, capturing the restless energy of metropolitan life. Chen layers photographic collage with paint, creating a palimpsest of the modern urban experience.',                                                                                medium:'Mixed Media',          dimensions:'150 × 100 cm',  year:2024, price:6500,  category:'Abstract',    img:'https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=700&q=80', featured:true },
+  { id:4,  title:'Serenity in Blue',    artist:'James Okonkwo',    description:'Meditative seascape with layered blues from cerulean to navy, evoking the infinite depth of still waters at dusk. Okonkwo\'s patient, luminous washes create a work that rewards extended contemplation.',                                                                                                   medium:'Watercolor on Paper',  dimensions:'60 × 80 cm',    year:2023, price:2100,  category:'Seascape',    img:'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=700&q=80', featured:false },
+  { id:5,  title:'Floral Study No. 7',  artist:'Amara Diallo',     description:'A lush, intimate portrait of seasonal blooms rendered with botanical precision and painterly warmth. Diallo\'s command of tone and her sensitivity to natural light give this work a luminous, almost photographic quality.',                                                                                medium:'Oil on Panel',         dimensions:'50 × 50 cm',    year:2022, price:1800,  category:'Botanical',   img:'https://images.unsplash.com/photo-1490750967868-88df5691240e?w=700&q=80', featured:false },
+  { id:6,  title:'Geometry of Light',   artist:'Rafael Moreau',    description:'Hard-edged abstract explorations of how light interacts with form — clean, bold, and intellectually precise. Moreau approaches painting as a philosophical inquiry, each canvas a theorem about perception.',                                                                                               medium:'Acrylic on Canvas',    dimensions:'100 × 100 cm',  year:2024, price:5200,  category:'Abstract',    img:'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=700&q=80', featured:false, status:'reserved' },
+  { id:7,  title:'Portrait of Silence', artist:'Nadia Kovacs',     description:'A haunting figurative work in muted charcoal tones, exploring vulnerability and introspection through gaze and gesture. One of the most emotionally affecting works in the current collection.',                                                                                                            medium:'Charcoal on Paper',    dimensions:'70 × 90 cm',    year:2021, price:2800,  category:'Figurative',  img:'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=700&q=80', featured:false },
+  { id:8,  title:'Golden Fields',       artist:'Lars Eriksson',    description:'Sweeping panoramic landscape of harvest fields bathed in late afternoon gold — a hymn to the agrarian sublime. Eriksson\'s en plein air practice gives the work an urgency and vibrancy that no studio painting could replicate.',                                                                         medium:'Oil on Canvas',        dimensions:'160 × 70 cm',   year:2023, price:7200,  category:'Landscape',   img:'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=700&q=80', featured:true },
+  { id:9,  title:'Ceramic Dreams',      artist:'Yuki Tanaka',      description:'A sculptural still life bridging the domestic and the sacred — everyday vessels rendered as objects of quiet ceremony. Tanaka\'s still lifes possess a Japanese aesthetic sensibility applied to universal human experience.',                                                                               medium:'Oil on Board',         dimensions:'40 × 55 cm',    year:2022, price:1400,  category:'Still Life',  img:'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=700&q=80', featured:false },
+  { id:10, title:'Storm Over the Bay',  artist:'Thomas Harrington', description:'Dramatic maritime scene capturing the raw power of an approaching storm, painted en plein air with urgency and bravura. The sky dominates in churning greys and violets, while the sea below mirrors the heavens\' turbulence.',                                                                        medium:'Oil on Canvas',        dimensions:'90 × 120 cm',   year:2023, price:5800,  category:'Seascape',    img:'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=700&q=80', featured:false },
+  { id:11, title:'Dusk Migration',      artist:'Priya Nair',       description:'An ethereal work depicting birds in flight against a gradient sky, capturing the poetry of seasonal change. Nair\'s palette moves from amber to deep violet in a performance of transience and beauty.',                                                                                                   medium:'Gouache on Paper',     dimensions:'55 × 75 cm',    year:2024, price:2400,  category:'Nature',      img:'https://images.unsplash.com/photo-1520962880247-cfaf541c8724?w=700&q=80', featured:false },
+  { id:12, title:'The Archivist',       artist:'Henri Dubois',     description:'A richly detailed interior scene — a scholar among ancient maps and books — painted with Flemish attention to light and texture. A deeply literary work for a collector who loves the life of the mind.',                                                                                                  medium:'Oil on Canvas',        dimensions:'80 × 100 cm',   year:2021, price:9500,  category:'Figurative',  img:'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=700&q=80', featured:false, status:'sold' },
+];
+
+/* ============================================================
+   STATE — persisted to localStorage
+   ============================================================ */
+const STORE_KEY = 'luminary_artworks_v1';
+const ORDERS_KEY = 'luminary_orders_v1';
+
+function loadArtworks() {
+  try {
+    const saved = localStorage.getItem(STORE_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  const data = ARTWORKS_SEED.map(a => ({ status: 'available', ...a }));
+  saveArtworks(data);
+  return data;
+}
+function saveArtworks(data) {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+function loadOrders() {
+  try { return JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveOrders(orders) {
+  try { localStorage.setItem(ORDERS_KEY, JSON.stringify(orders)); } catch(e) {}
+}
+
+let artworks = loadArtworks();
+let filterCat = 'All';
+let searchQ   = '';
+
+/* ============================================================
+   STATS
+   ============================================================ */
+function updateStats() {
+  const avail  = artworks.filter(a => a.status === 'available').length;
+  const orders = loadOrders().length;
+  document.getElementById('sTotal').textContent  = artworks.length + '+';
+  document.getElementById('sAvail').textContent  = avail;
+  document.getElementById('sOrders').textContent = orders + '+';
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function initNav() {
+  const navbar = document.getElementById('navbar');
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+
+  // Close mobile menu on link click
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  // Active nav on scroll
+  const sections = ['gallery','about','contact'];
+  const links = document.querySelectorAll('.nav-links a[data-section]');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.toggle('active', l.dataset.section === e.target.id));
+      }
+    });
+  }, { threshold: 0.35 });
+  sections.forEach(id => { const el = document.getElementById(id); if (el) io.observe(el); });
+}
+
+/* ============================================================
+   GALLERY — RENDER
+   ============================================================ */
+function getCategories() {
+  return ['All', ...new Set(artworks.map(a => a.category).filter(Boolean).sort())];
+}
+
+function buildFilters() {
+  const bar = document.getElementById('filterBar');
+  bar.innerHTML = '';
+  getCategories().forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (cat === filterCat ? ' active' : '');
+    btn.textContent = cat;
+    btn.dataset.cat = cat;
+    btn.addEventListener('click', () => {
+      filterCat = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+      renderGrid();
+    });
+    bar.appendChild(btn);
+  });
+}
+
+function getFiltered() {
+  return artworks.filter(a => {
+    const catOk = filterCat === 'All' || a.category === filterCat;
+    const q = searchQ.toLowerCase();
+    const searchOk = !q || a.title.toLowerCase().includes(q) || a.artist.toLowerCase().includes(q) || (a.category||'').toLowerCase().includes(q) || (a.medium||'').toLowerCase().includes(q);
+    return catOk && searchOk;
+  });
+}
+
+function fmt(price, status) {
+  if (status === 'sold') return 'SOLD';
+  return '$' + Number(price).toLocaleString('en-US');
+}
+
+function renderGrid() {
+  const grid = document.getElementById('artGrid');
+  const list = getFiltered();
+
+  if (!list.length) {
+    grid.innerHTML = `<div class="grid-empty"><h3>No artworks found</h3><p style="color:var(--muted)">Try adjusting your search or filters.</p></div>`;
+    return;
+  }
+
+  // Featured first
+  const sorted = [...list].sort((a,b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+
+  grid.innerHTML = sorted.map(a => `
+    <div class="art-card reveal" data-id="${a.id}" role="button" tabindex="0" aria-label="View ${esc(a.title)}">
+      <div class="card-img">
+        <img src="${esc(a.img)}" alt="${esc(a.title)}" loading="lazy"
+             onerror="this.src='https://via.placeholder.com/600x450/f5f0e8/b8963e?text=Artwork'" />
+        <span class="card-badge badge-${a.status}">${cap(a.status)}</span>
+        ${a.featured ? '<span class="card-featured">Featured</span>' : ''}
+      </div>
+      <div class="card-body">
+        <div class="card-cat label">${esc(a.category||'')}</div>
+        <h3 class="card-title">${esc(a.title)}</h3>
+        <p class="card-artist">by ${esc(a.artist)}</p>
+        <div class="card-foot">
+          <div class="card-price">${fmt(a.price, a.status)}</div>
+          <div class="card-meta">${a.medium ? esc(a.medium)+'<br>' : ''}${a.dimensions ? esc(a.dimensions) : ''}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.art-card').forEach(card => {
+    card.addEventListener('click', () => openModal(+card.dataset.id));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter') openModal(+card.dataset.id); });
+  });
+
+  triggerReveal();
+}
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+function initSearch() {
+  const input = document.getElementById('searchInput');
+  const btn   = document.getElementById('searchBtn');
+
+  const run = () => { searchQ = input.value.trim(); renderGrid(); };
+  btn.addEventListener('click', run);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') run(); });
+
+  // Live search with debounce
+  let timer;
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { searchQ = input.value.trim(); renderGrid(); }, 300);
+  });
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+function openModal(id) {
+  const a = artworks.find(x => x.id === id);
+  if (!a) return;
+
+  const overlay = document.getElementById('overlay');
+  const modal   = document.getElementById('modal');
+  const avail   = a.status === 'available';
+  const reserved = a.status === 'reserved';
+  const sold    = a.status === 'sold';
+
+  const availLabel = avail
+    ? '<span class="avail-yes">● Available for Pre-Order</span>'
+    : reserved
+    ? '<span class="avail-res">● Currently Reserved</span>'
+    : '<span class="avail-no">● This Work Has Been Sold</span>';
+
+  modal.innerHTML = `
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div class="modal-inner">
+      <div class="modal-photo">
+        <img src="${esc(a.img)}" alt="${esc(a.title)}"
+             onerror="this.src='https://via.placeholder.com/700x700/f5f0e8/b8963e?text=Artwork'" />
+      </div>
+      <div class="modal-detail">
+        <div class="modal-cat label">${esc(a.category||'')}</div>
+        <h2 class="modal-title">${esc(a.title)}</h2>
+        <p class="modal-artist">by ${esc(a.artist)}</p>
+        <p class="modal-desc">${esc(a.description||'')}</p>
+        <div class="specs-grid">
+          ${a.medium      ? `<div><div class="spec-l">Medium</div><div class="spec-v">${esc(a.medium)}</div></div>` : ''}
+          ${a.dimensions  ? `<div><div class="spec-l">Dimensions</div><div class="spec-v">${esc(a.dimensions)}</div></div>` : ''}
+          ${a.year        ? `<div><div class="spec-l">Year</div><div class="spec-v">${a.year}</div></div>` : ''}
+          <div><div class="spec-l">Status</div><div class="spec-v">${cap(a.status)}</div></div>
+        </div>
+        <div class="modal-price">${avail ? '$'+Number(a.price).toLocaleString('en-US') : sold ? 'SOLD' : 'RESERVED'}</div>
+        <div class="modal-avail">${availLabel}</div>
+
+        ${avail ? `
+        <div class="preorder-section">
+          <h4>Place a Pre-Order</h4>
+          <form id="preorderForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full Name <span class="req">*</span></label>
+                <input type="text" name="name" required placeholder="Your full name" />
+              </div>
+              <div class="form-group">
+                <label>Email Address <span class="req">*</span></label>
+                <input type="email" name="email" required placeholder="you@example.com" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" name="phone" placeholder="+1 (555) 000-0000" />
+              </div>
+              <div class="form-group">
+                <label>Country / City</label>
+                <input type="text" name="city" placeholder="New York, USA" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Message (optional)</label>
+              <textarea name="message" placeholder="Any special requests or questions…" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center">
+              ✦ Request This Artwork
+            </button>
+            <div class="form-msg" id="preorderMsg"></div>
+          </form>
+        </div>
+        ` : `<p style="color:var(--muted);font-size:.84rem;margin-top:0.5rem">This artwork is not currently available for pre-order. <a href="#contact" onclick="closeModal()" style="color:var(--gold);text-decoration:underline">Contact us</a> to enquire about similar works.</p>`}
+      </div>
+    </div>
+  `;
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+
+  if (avail) {
+    document.getElementById('preorderForm').addEventListener('submit', e => handlePreorder(e, a));
+  }
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handlePreorder(e, artwork) {
+  e.preventDefault();
+  const form = e.target;
+  const msgEl = document.getElementById('preorderMsg');
+  const btn   = form.querySelector('[type=submit]');
+
+  const name  = form.name.value.trim();
+  const email = form.email.value.trim();
+
+  if (!name || !email) {
+    msgEl.className = 'form-msg err';
+    msgEl.textContent = 'Please fill in your name and email address.';
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    msgEl.className = 'form-msg err';
+    msgEl.textContent = 'Please enter a valid email address.';
+    return;
+  }
+
+  // Simulate processing
+  btn.disabled = true; btn.textContent = 'Processing…';
+
+  setTimeout(() => {
+    // Mark artwork as reserved
+    artworks = artworks.map(a => a.id === artwork.id ? { ...a, status: 'reserved' } : a);
+    saveArtworks(artworks);
+
+    // Save order
+    const orders = loadOrders();
+    orders.push({
+      id: Date.now(),
+      artworkId: artwork.id,
+      artworkTitle: artwork.title,
+      price: artwork.price,
+      name, email,
+      phone: form.phone?.value || '',
+      city: form.city?.value || '',
+      message: form.message?.value || '',
+      date: new Date().toISOString(),
+      status: 'pending'
+    });
+    saveOrders(orders);
+    updateStats();
+
+    msgEl.className = 'form-msg ok';
+    msgEl.textContent = `Your pre-order for "${artwork.title}" has been received! We'll contact you at ${email} within 24 hours to confirm.`;
+    form.reset();
+    btn.textContent = 'Request Sent ✓';
+
+    showToast(`Pre-order placed for "${artwork.title}"! Check your email soon.`, 'ok');
+    renderGrid(); // update card status
+  }, 900);
+}
+
+/* ============================================================
+   CONTACT FORM
+   ============================================================ */
+function initContactForm() {
+  document.getElementById('contactForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const form = e.target;
+    const msgEl = document.getElementById('contactMsg');
+    const btn   = form.querySelector('[type=submit]');
+
+    const name    = form.name.value.trim();
+    const email   = form.email.value.trim();
+    const message = form.message.value.trim();
+
+    if (!name || !email || !message) {
+      msgEl.className = 'form-msg err';
+      msgEl.textContent = 'Please fill in your name, email, and message.';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      msgEl.className = 'form-msg err';
+      msgEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+
+    btn.disabled = true; btn.textContent = 'Sending…';
+
+    setTimeout(() => {
+      msgEl.className = 'form-msg ok';
+      msgEl.textContent = "Thank you! We'll be in touch within 2 business days.";
+      form.reset();
+      btn.disabled = false; btn.textContent = 'Send Message →';
+      showToast('Message sent! We\'ll be in touch soon.', 'ok');
+    }, 800);
+  });
+}
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+function initReveal() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('vis'), i * 70);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+}
+function triggerReveal() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('vis'), i * 55);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.reveal:not(.vis)').forEach(el => io.observe(el));
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(msg, type = 'ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `show ${type}`;
+  setTimeout(() => { t.className = ''; }, 4500);
+}
+
+/* ============================================================
+   UTILS
+   ============================================================ */
+function esc(str) {
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
+function cap(s) { return s ? s[0].toUpperCase() + s.slice(1) : ''; }
+
+/* ============================================================
+   OVERLAY CLOSE ON BACKDROP
+   ============================================================ */
+document.getElementById('overlay').addEventListener('click', e => {
+  if (e.target.id === 'overlay') closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+(function init() {
+  initNav();
+  buildFilters();
+  initSearch();
+  renderGrid();
+  initContactForm();
+  updateStats();
+
+  // Staggered reveal on page load for visible elements
+  window.addEventListener('load', initReveal);
+})();
+</script>
+</body>
+</html>
